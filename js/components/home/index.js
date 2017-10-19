@@ -5,7 +5,7 @@ import Setting from "../setting";
 import DrawBar from "../DrawBar";
 import Transaction from './Transaction'
 import Asset from './Asset';
-import Paticipant from './Paticipant';
+import Participant from './Participant';
 import Profile from './Profile';
 import { DrawerNavigator, NavigationActions } from "react-navigation";
 import {
@@ -50,15 +50,20 @@ class Home extends Component {
 
   render() {
     let AppComponent = null;
+    let titleName = '';
     
           if (this.state.index == 0) {
              AppComponent = Transaction
+             titleName = 'Transaction';
           } else if(this.state.index == 1){
              AppComponent = Asset
+             titleName = 'Asset';
           } else if(this.state.index == 2){
-             AppComponent = Paticipant
+             AppComponent = Participant
+             titleName = 'Participant'
           } else{
              AppComponent = Profile
+             titleName = 'Profile'
           }
 
     console.log(this.props.navigation.state.params.name, "786785786");
@@ -75,8 +80,8 @@ class Home extends Component {
           </Left>
         
 
-          <Body>
-            <Title>{this.props.navigation.state.params.name}</Title>
+          <Body style={styles.title}>
+            <Title>{titleName}</Title>
           </Body>
           <Right>
 
@@ -89,9 +94,9 @@ class Home extends Component {
           
         </Header>
 
-        <Content padder>
-        <AppComponent/>
-        </Content>
+        
+        <AppComponent style={styles.component}/>
+     
 
         <Footer>
           <FooterTab style={styles.footer}>

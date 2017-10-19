@@ -5,41 +5,41 @@ import { Container, Content, List, ListItem, Icon, Left, Body, Right, Button } f
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import styles from "./styles";
 
-const assetItem = [
+const participantItem = [
     {
-      iconName:"archive",
-      id:"assetId:8705"
+      iconName:"body",
+      id:"participantId:9543"
     },{ 
-      iconName:"archive",
-      id:"assetId:8704"
+      iconName:"body",
+      id:"participantId:9542"
     },{ 
-      iconName:"archive",
-      id:"assetId:8703"
+      iconName:"body",
+      id:"participantId:9541"
     },
   ];
 
   const popupDetailItem = [
     {
-      name:"AssetId",
-      data:"assetId:8705"
-    },{ 
-      name:"Owner",
+      name:"ParticipantId",
       data:"participantId:9543"
     },{ 
-      name:"Value",
-      data:"8000"
+      name:"First Name",
+      data:"John"
+    },{ 
+      name:"Last Name",
+      data:"Snow"
     },
   ];
 
 // create a component
-class Asset extends Component {
+class Participant extends Component {
     render() {
         return (
             <View style={styles.container}>
                   <Content>
 
                   <PopupDialog
-                  dialogTitle={<DialogTitle title="Asset Detail" />}
+                  dialogTitle={<DialogTitle title="Participant Detail" />}
                   dialogStyle={styles.popupDialog}
                     ref={(popupDialog) => { this.popupDialog = popupDialog; }}
                     dialogAnimation = { new SlideAnimation({ slideFrom: 'bottom' }) }
@@ -64,7 +64,7 @@ class Asset extends Component {
                   </PopupDialog>
 
              <List style={styles.list}
-            dataArray={assetItem}
+            dataArray={participantItem}
             renderRow={data => {
               return (
                 <ListItem 
@@ -73,7 +73,7 @@ class Asset extends Component {
                   onPress={() => this.popupDialog.show()}
                 >
                 <Left>
-                <Icon active name={data.iconName} />
+                <Icon active name={data.iconName} />    
                 </Left>
                 <Body>
                 <Text>{data.id}</Text>
@@ -90,4 +90,4 @@ class Asset extends Component {
 }
 
 //make this component available to the app
-export default Asset;
+export default Participant;

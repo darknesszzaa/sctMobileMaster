@@ -1,5 +1,5 @@
 import React from "react";
-import { AppRegistry, Image, TouchableOpacity } from "react-native";
+import { AppRegistry, Image, TouchableOpacity, Alert } from "react-native";
 import { DrawerNavigator, NavigationActions } from "react-navigation";
 import {
   Button,
@@ -32,12 +32,22 @@ export default class DrawBar extends React.Component {
 
   drawAction(data) {
     if(data=="logout"){
-      this.props.navigation.dispatch(
-        NavigationActions.reset({
-          index: 0,
-          actions: [NavigationActions.navigate({ routeName: "Login" })]
-        })
-      );
+      Alert.alert(
+        'Are you sure to exit','',
+        [
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: 'OK', onPress: () => 
+          this.props.navigation.dispatch(
+            NavigationActions.reset({
+              index: 0,
+              actions: [NavigationActions.navigate({ routeName: "Login" })]
+            })
+          ) },
+        ],
+        { cancelable: false }
+      )
+      
+      
     }else{
     this.props.navigation.navigate(data)
     }
