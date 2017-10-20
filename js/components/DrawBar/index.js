@@ -33,7 +33,7 @@ export default class DrawBar extends React.Component {
   drawAction(data) {
     if(data=="logout"){
       Alert.alert(
-        'Are you sure to exit','',
+        'Are you sure to exit?','',
         [
           {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
           {text: 'OK', onPress: () => 

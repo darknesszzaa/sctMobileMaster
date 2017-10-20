@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, TextInput, TouchableOpacity, Keyboard } from "react-native";
+import { Image, TextInput, TouchableOpacity, Keyboard, Alert } from "react-native";
 import { connect } from "react-redux";
 import {
   Container,
@@ -17,37 +17,12 @@ import styles from "./styles";
 
 const background = require("../../../images/smart_contract_logo_banner.png");
 
-const validate = values => {
-  const error = {};
-  error.email = "";
-  error.password = "";
-  var ema = values.email;
-  var pw = values.password;
-  if (values.email === undefined) {
-    ema = "";
-  }
-  if (values.password === undefined) {
-    pw = "";
-  }
-  if (ema.length < 8 && ema !== "") {
-    error.email = "too short";
-  }
-  if (!ema.includes("@") && ema !== "") {
-    error.email = "@ not included";
-  }
-  if (pw.length > 12) {
-    error.password = "max 11 characters";
-  }
-  if (pw.length < 5 && pw.length > 0) {
-    error.password = "Weak";
-  }
-  return error;
-};
-
 class Login extends Component {
   static propTypes = {
     setUser: React.PropTypes.func
   };
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -62,9 +37,46 @@ class Login extends Component {
     this.props.setUser(name);
   }
 
-  login() {
+ login(){
+
+  var details = {
+    // username: 'Blackcats.n',
+    // password: '1a2b3c4d',
+    username: this.state.username,
+    password: this.state.password
+  };
+
+  var formBody = [];
+  for (var property in details) {
+    var encodedKey = encodeURIComponent(property);
+    var encodedValue = encodeURIComponent(details[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  formBody = formBody.join("&");
+
+  fetch('http://app.staging.smartcontractthailand.info:9000/oauth2/v1/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization':'Basic c21hcnRjb250cmFjdDohUUFaQFdTQw'
+    },
+    body: formBody
+  }).then((response) => {
+    console.log("Get data from server : " + JSON.stringify(response));
     Keyboard.dismiss();
-    this.props.navigation.navigate("Home", { name : this.state.username });
+    if(response.ok==true){
+      this.props.navigation.navigate("Home", { data : response._bodyInit });
+    }else{
+        Alert.alert('Invalid Username or Password', alert);
+          return {
+              type: 'ALERT_USER',
+              alert
+          }
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
+
  }
 
 
@@ -137,8 +149,7 @@ class Login extends Component {
 }
 const LoginSwag = reduxForm(
   {
-    form: "test",
-    validate
+    form: "test"
   },
   function bindActions(dispatch) {
     return {

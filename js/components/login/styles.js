@@ -71,4 +71,7 @@ buttonText:{
     paddingVertical: 15,
     marginBottom: 10,
   },
+  errorText:{
+    color: '#F00'
+  },
 };
